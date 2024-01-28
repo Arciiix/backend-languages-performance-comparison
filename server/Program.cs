@@ -120,12 +120,12 @@ void ExportResults()
         comments.ForEach(e => writer.WriteLine($"#{e}"));
 
         // Write header
-        writer.WriteLine("Id, TimeTakenMs, TimeTakenForDbMs, TimeTakenFibonnaciMs, TimeTakenSortMs");
+        writer.WriteLine("Id,TimeTakenMs,TimeTakenForDbMs,TimeTakenFibonnaciMs,TimeTakenSortMs");
 
         // Write each person's data
         foreach (Result result in results)
         {
-            writer.WriteLine($"{result.Id}, {(int)result.Overall.TotalMilliseconds}, {(int)result.Db.TotalMilliseconds}, {(int)result.Fibonnaci.TotalMilliseconds}, {(int)result.Sorting.TotalMilliseconds}");
+            writer.WriteLine($"{result.Id},{(int)result.Overall.TotalMilliseconds},{(int)result.Db.TotalMilliseconds},{(int)result.Fibonnaci.TotalMilliseconds},{(int)result.Sorting.TotalMilliseconds}");
         }
 
 
