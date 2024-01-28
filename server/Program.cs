@@ -25,7 +25,7 @@ ConcurrentDictionary<string, DateTime> requests = [];
 
 string nameOfTestedTechnology = "Unknown";
 
-ConcurrentBag<Result> results = [];
+ConcurrentQueue<Result> results = [];
 
 Random random = new Random();
 const string chars = "abcdefghijklmnopqrstuvwxyz012345678901234567890123456789";
@@ -46,9 +46,9 @@ void SendMessage(IWebSocketConnection ws)
         indexOfCurrentRequest = 0;
     }
 
-    requests[toSend.Id] = DateTime.Now;
 
     var toSendSerialized = JsonConvert.SerializeObject(toSend);
+    requests[toSend.Id] = DateTime.Now;
     ws.Send(toSendSerialized);
 }
 
@@ -57,7 +57,7 @@ RequestPayload GenerateRequest()
     indexOfRequest++;
     StringBuilder sb = new StringBuilder();
 
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 100; i++)
     {
         sb.Append(chars[random.Next(chars.Length)]);
     }
@@ -67,7 +67,7 @@ RequestPayload GenerateRequest()
     {
         Id = indexOfRequest.ToString(),
         TextForSorting = sb.ToString(),
-        TestOfNesting = new TestOfNesting() { FibonacciElementToCalculate = random.Next(20) }
+        TestOfNesting = new TestOfNesting() { FibonacciElementToCalculate = random.Next(1000) }
     };
 }
 
@@ -77,7 +77,7 @@ void ExportResults()
     string currentDirectory = Directory.GetCurrentDirectory();
 
     // Define the file name
-    string fileName = $"{nameOfTestedTechnology}_{DateTime.Now.ToString("yyyyMMddmmHHss")}.csv";
+    string fileName = $"TEST_{nameOfTestedTechnology}_{DateTime.Now.ToString("yyyyMMddmmHHss")}.csv";
 
     // Combine the current directory path and the file name
     string filePath = Path.Combine(currentDirectory, fileName);
@@ -90,12 +90,12 @@ void ExportResults()
         using (StreamWriter writer = new StreamWriter(filePath))
         {
             // Write header
-            writer.WriteLine("TimeTakenMs, TimeTakenFibonnaciMs, TimeTakenSortMs");
+            writer.WriteLine("Id, TimeTakenMs, TimeTakenForDbMs, TimeTakenFibonnaciMs, TimeTakenSortMs");
 
             // Write each person's data
             foreach (Result result in results)
             {
-                writer.WriteLine($"{result.Overall.TotalMilliseconds}, {result.Fibonnaci.TotalMilliseconds}, {result.Sorting.TotalMilliseconds}");
+                writer.WriteLine($"{result.Id}, {(int)result.Overall.TotalMilliseconds}, {(int)result.Db.TotalMilliseconds}, {(int)result.Fibonnaci.TotalMilliseconds}, {(int)result.Sorting.TotalMilliseconds}");
             }
         }
 
@@ -113,7 +113,9 @@ void ExportResults()
 
     logger.LogInformation("----- TEST COMPLETE ----- ");
     logger.LogInformation("Technology: {Technology}", nameOfTestedTechnology);
-    logger.LogInformation("Received responses [%]: {PercentageOfResponses}", (numberOfReceivedRequests / totalNumberOfRequests) * 100);
+    logger.LogInformation("Received responses: {ReceivedResponses}", numberOfReceivedRequests);
+    logger.LogInformation("Sent requests: {SentRequests}", totalNumberOfRequests);
+    logger.LogInformation("Received responses [%]: {PercentageOfResponses}", (numberOfReceivedRequests * 1.0 / totalNumberOfRequests) * 100);
     logger.LogInformation("Mean time per request [ms]: {MeanTimePerRequest}", results.Select(e => e.Overall.TotalMilliseconds).Average());
     logger.LogInformation("Requests per seconds: {RequestsPerSecond}", (numberOfReceivedRequests * 1.0) / testingTime.Seconds);
 
@@ -124,7 +126,7 @@ void ExportResults()
 void StartSending(IWebSocketConnection ws)
 {
     // First create a list of potential requests to send, to later avoid slowing it down
-    for (int i = 0; i < 1_000_000; i++)
+    for (int i = 0; i < 100_000; i++)
     {
         requestsToSend.Add(GenerateRequest());
     }
@@ -142,15 +144,17 @@ void StartSending(IWebSocketConnection ws)
 
     logger.LogInformation("Init!");
 
+
+    endDate = DateTime.Now + testingTime;
     while (endDate > DateTime.Now)
     {
         // If the gap is below 10k requests
-        if (totalNumberOfRequests - numberOfReceivedRequests < 10_000)
+        if (totalNumberOfRequests - numberOfReceivedRequests < 500)
         {
             Task.Run(() => SendMessage(ws));
             totalNumberOfRequests++;
         }
-        logger.LogInformation("Waiting");
+        //logger.LogInformation("Waiting");
     }
     logger.LogInformation("Testing worker completed");
 
@@ -174,17 +178,20 @@ server.Start(ws =>
             logger.LogInformation("Started!");
             nameOfTestedTechnology = message;
             endDate = DateTime.Now + testingTime;
-            StartSending(ws);
+            new Thread(() => StartSending(ws)).Start();
+
 
             return;
         }
         if (endDate < DateTime.Now) return;
 
         numberOfReceivedRequests++;
-
         var messageParsed = JsonConvert.DeserializeObject<ResultRaw>(message)!;
-        results.Add(new Result(
+
+        results.Enqueue(new Result(
+            messageParsed.Id,
             DateTime.Now - requests[messageParsed.Id],
+            TimeSpan.FromMilliseconds(messageParsed.MillisecondsForDb),
             TimeSpan.FromMilliseconds(messageParsed.MillisecondsForFibonnaci),
             TimeSpan.FromMilliseconds(messageParsed.MillisecondsForSorting)));
 
