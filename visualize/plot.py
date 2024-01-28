@@ -10,7 +10,7 @@ files = os.listdir(directory)
 csv_files = [os.path.join(directory, file) for file in files if file.endswith(".csv")]
 
 # Define the fields you want to compare
-fields = ["TimeTakenMs", "TimeTakenForDbMs", "TimeTakenFibonnaciMs", "TimeTakenSortMs"]
+fields = ["TimeTakenMs", "TimeTakenForDbMs", "TimeTakenFibonacciMs", "TimeTakenSortMs"]
 
 # Create subplots
 fig, axs = plt.subplots(len(fields), 1, figsize=(10, 8))

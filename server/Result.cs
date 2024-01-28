@@ -1,6 +1,6 @@
 ﻿namespace server;
 
-public record Result(string Id, TimeSpan Overall, TimeSpan Db, TimeSpan Fibonnaci, TimeSpan Sorting);
+public record Result(string Id, TimeSpan Overall, TimeSpan Db, TimeSpan Fibonacci, TimeSpan Sorting);
 
 public class ResultRaw
 {

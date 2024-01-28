@@ -4,7 +4,7 @@
 #Received responses [%]: 98,55382657488286
 #Mean time per request [ms]: 433,99352409461306
 #Requests per seconds: 1135,8
-Id,TimeTakenMs,TimeTakenForDbMs,TimeTakenFibonnaciMs,TimeTakenSortMs
+Id,TimeTakenMs,TimeTakenForDbMs,TimeTakenFibonacciMs,TimeTakenSortMs
 2,26,1,0,0
 8,27,1,0,0
 9,27,0,0,0
