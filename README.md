@@ -6,7 +6,7 @@ I tried my best to make the results as accurate as possible - all the implementa
 
 # Results
 
-| #   | Language/technology             | Responses received | Requests sent | Responses received [%] | Mean time per request [ms] | Requests per seconds |
+| #   | Language/technology             | Responses received | Requests sent | Responses received [%] | Mean time per request [ms] | Requests per second |
 | --- | ------------------------------- | ------------------ | ------------- | ---------------------- | -------------------------- | -------------------- |
 | 1   | C#                              | 34571              | 35071         | 98.57                  | 428.53                     | 1152.37              |
 | 2   | Rust                            | 34074              | 34574         | 98.55                  | 433.99                     | 1135.8               |
