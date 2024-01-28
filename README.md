@@ -45,3 +45,5 @@ The database used in this test was a simple MariaDB database ran in a Docker con
 Calculate the time of a function execution using DateTime-related objects (not a built-in functions to calculate the performance, e.g. Stopwatch in C#) - to also test the DateTime-related methods in a given language
 
 Thanks to the overload on my PC because of that services, I could test how the back-end technologies would behave on low-level servers and SBCs (single-board computers, like Raspberry Pi).
+
+Made with ❤️ by [Artur Nowak](https://github.com/Arciiix)
