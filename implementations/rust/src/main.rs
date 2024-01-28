@@ -1,11 +1,9 @@
 use std::io::{self, Write};
-use std::sync::mpsc;
-use std::thread;
 use std::time::SystemTime;
 
 use mysql::prelude::Queryable;
 use mysql::{Pool, PooledConn};
-use rand::{Error, Rng};
+use rand::Rng;
 use serde::{Deserialize, Serialize};
 use tungstenite::connect;
 use tungstenite::Message;
