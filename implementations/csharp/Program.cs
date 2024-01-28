@@ -30,7 +30,7 @@ int CalculateFibonacci(int n)
 
 client.MessageReceived.Subscribe(async (msg) =>
 {
-    // JSON serialization
+    // JSON deserialization
     var data = JsonConvert.DeserializeObject<RequestPayload>(msg.Text!)!;
 
     // Simple database query

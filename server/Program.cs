@@ -1,5 +1,6 @@
 using Fleck;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using server;
 using System.Collections.Concurrent;
 using System.Text;
@@ -47,7 +48,13 @@ void SendMessage(IWebSocketConnection ws)
     }
 
 
-    var toSendSerialized = JsonConvert.SerializeObject(toSend);
+    var toSendSerialized = JsonConvert.SerializeObject(toSend, Formatting.None, new JsonSerializerSettings()
+    {
+        ContractResolver = new DefaultContractResolver
+        {
+            NamingStrategy = new CamelCaseNamingStrategy()
+        }
+    });
     requests[toSend.Id] = DateTime.Now;
     ws.Send(toSendSerialized);
 }
