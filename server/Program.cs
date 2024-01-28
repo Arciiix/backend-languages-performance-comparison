@@ -80,6 +80,27 @@ RequestPayload GenerateRequest()
 
 void ExportResults()
 {
+    for (int i = 0; i < 5; i++)
+    {
+        Console.WriteLine(Environment.NewLine);
+    }
+
+    double percentageOfResponses = (numberOfReceivedRequests * 1.0 / totalNumberOfRequests) * 100;
+    double meanTimePerRequest = results.Select(e => e.Overall.TotalMilliseconds).Average();
+    double requestsPerSecond = (numberOfReceivedRequests * 1.0) / testingTime.Seconds;
+
+    List<string> comments = [];
+
+    comments.Add($"Technology: {nameOfTestedTechnology}");
+    comments.Add($"Received responses: {numberOfReceivedRequests}");
+    comments.Add($"Sent requests: {totalNumberOfRequests}");
+    comments.Add($"Received responses [%]: {percentageOfResponses}");
+    comments.Add($"Mean time per request [ms]: {meanTimePerRequest}");
+    comments.Add($"Requests per seconds: {requestsPerSecond}");
+
+    logger.LogInformation("----- TEST COMPLETE -----");
+    logger.LogInformation("{Results}", string.Join(Environment.NewLine, comments));
+
     // Get the current directory
     string currentDirectory = Directory.GetCurrentDirectory();
 
@@ -94,17 +115,19 @@ void ExportResults()
     try
     {
         // Create a StreamWriter to write to the CSV file
-        using (StreamWriter writer = new StreamWriter(filePath))
-        {
-            // Write header
-            writer.WriteLine("Id, TimeTakenMs, TimeTakenForDbMs, TimeTakenFibonnaciMs, TimeTakenSortMs");
+        using var writer = new StreamWriter(filePath);
 
-            // Write each person's data
-            foreach (Result result in results)
-            {
-                writer.WriteLine($"{result.Id}, {(int)result.Overall.TotalMilliseconds}, {(int)result.Db.TotalMilliseconds}, {(int)result.Fibonnaci.TotalMilliseconds}, {(int)result.Sorting.TotalMilliseconds}");
-            }
+        comments.ForEach(e => writer.WriteLine($"#{e}"));
+
+        // Write header
+        writer.WriteLine("Id, TimeTakenMs, TimeTakenForDbMs, TimeTakenFibonnaciMs, TimeTakenSortMs");
+
+        // Write each person's data
+        foreach (Result result in results)
+        {
+            writer.WriteLine($"{result.Id}, {(int)result.Overall.TotalMilliseconds}, {(int)result.Db.TotalMilliseconds}, {(int)result.Fibonnaci.TotalMilliseconds}, {(int)result.Sorting.TotalMilliseconds}");
         }
+
 
         logger.LogInformation("CSV file created successfully!");
     }
@@ -113,18 +136,6 @@ void ExportResults()
         logger.LogError("{Exception}", ex.Message);
     }
 
-    for (int i = 0; i < 5; i++)
-    {
-        Console.WriteLine(Environment.NewLine);
-    }
-
-    logger.LogInformation("----- TEST COMPLETE ----- ");
-    logger.LogInformation("Technology: {Technology}", nameOfTestedTechnology);
-    logger.LogInformation("Received responses: {ReceivedResponses}", numberOfReceivedRequests);
-    logger.LogInformation("Sent requests: {SentRequests}", totalNumberOfRequests);
-    logger.LogInformation("Received responses [%]: {PercentageOfResponses}", (numberOfReceivedRequests * 1.0 / totalNumberOfRequests) * 100);
-    logger.LogInformation("Mean time per request [ms]: {MeanTimePerRequest}", results.Select(e => e.Overall.TotalMilliseconds).Average());
-    logger.LogInformation("Requests per seconds: {RequestsPerSecond}", (numberOfReceivedRequests * 1.0) / testingTime.Seconds);
 
 
     Environment.Exit(0);
