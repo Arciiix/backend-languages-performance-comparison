@@ -19,7 +19,15 @@ using ILoggerFactory factory = LoggerFactory.Create(builder =>
 ILogger logger = factory.CreateLogger("Back-end benchmark server");
 
 DateTime? endDate = null;
-TimeSpan testingTime = TimeSpan.FromSeconds(5);
+
+int testingTimeSeconds = 5;
+
+if (int.TryParse(args.FirstOrDefault(), out testingTimeSeconds))
+{
+    logger.LogInformation("Got testing time in seconds from args: {TestingTimeSeconds}", testingTimeSeconds);
+}
+
+TimeSpan testingTime = TimeSpan.FromSeconds(testingTimeSeconds);
 
 List<RequestPayload> requestsToSend = [];
 ConcurrentDictionary<string, DateTime> requests = [];
