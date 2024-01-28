@@ -45,8 +45,8 @@ client.MessageReceived.Subscribe(async (msg) =>
     CalculateFibonacci(data.TestOfNesting.FibonacciElementToCalculate);
     TimeSpan timeForFibonacci = DateTime.Now - now;
 
-    now = DateTime.Now;
     // Filter the string
+    now = DateTime.Now;
     int[] numbersOnly = data.TextForSorting.Where(char.IsDigit).Select(c => int.Parse(c.ToString())).ToArray();
 
     // Sort an array
@@ -59,7 +59,7 @@ client.MessageReceived.Subscribe(async (msg) =>
     {
         Id = data.Id,
         MillisecondsForDb = ((int)timeForDb.TotalMilliseconds),
-        MillisecondsForFibonnaci = ((int)timeForFibonacci.TotalMilliseconds),
+        MillisecondsForFibonacci = ((int)timeForFibonacci.TotalMilliseconds),
         MillisecondsForSorting = ((int)timeForSorting.TotalMilliseconds)
     };
     var resultSerialized = JsonConvert.SerializeObject(result);

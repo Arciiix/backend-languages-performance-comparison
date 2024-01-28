@@ -20,7 +20,7 @@ Every request tests:
 The flow looks the following:
 
 1. Deserialize the request
-1. Make a random query to the database - select a random row with id randomly chosen from 0 to 10
+1. Make a random query to the database - select a random row with id randomly chosen from 0 to 9
 1. Make a function containing a simple loop calculating the Fibonacci series element with index corresponding to the one from the request, and call it
 1. Filter the string from the request - by getting the digits from it to an array/list
 1. Sort this array/list

@@ -192,7 +192,7 @@ server.Start(ws =>
             messageParsed.Id,
             DateTime.Now - requests[messageParsed.Id],
             TimeSpan.FromMilliseconds(messageParsed.MillisecondsForDb),
-            TimeSpan.FromMilliseconds(messageParsed.MillisecondsForFibonnaci),
+            TimeSpan.FromMilliseconds(messageParsed.MillisecondsForFibonacci),
             TimeSpan.FromMilliseconds(messageParsed.MillisecondsForSorting)));
 
         // No print statements because they would slow it down very much (they're a SYSCALL)
