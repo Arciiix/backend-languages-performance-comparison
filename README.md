@@ -6,13 +6,13 @@ I tried my best to make the results as accurate as possible - all the implementa
 
 # Results
 
-| Language/technology             | Received responses | Requests sent | Responses received [%] | Mean time per request [ms] | Requests per seconds |
-| ------------------------------- | ------------------ | ------------- | ---------------------- | -------------------------- | -------------------- |
-| C#                              | 34571              | 35071         | 98.57                  | 428.53                     | 1152.37              |
-| Go                              | 17228              | 17728         | 97.18                  | 853.6                      | 574.27               |
-| Python                          | 5789               | 6289          | 92.05                  | 2470.08                    | 192.97               |
-| Rust                            | 34074              | 34574         | 98.55                  | 433.99                     | 1135.8               |
-| TypeScript/JavaScript (Node.js) | 17971              | 18471         | 97.29                  | 818.88                     | 599.03               |
+| #   | Language/technology             | Received responses | Requests sent | Responses received [%] | Mean time per request [ms] | Requests per seconds |
+| --- | ------------------------------- | ------------------ | ------------- | ---------------------- | -------------------------- | -------------------- |
+| 1   | C#                              | 34571              | 35071         | 98.57                  | 428.53                     | 1152.37              |
+| 2   | Rust                            | 34074              | 34574         | 98.55                  | 433.99                     | 1135.8               |
+| 3   | Go                              | 17228              | 17728         | 97.18                  | 853.6                      | 574.27               |
+| 4   | TypeScript/JavaScript (Node.js) | 17971              | 18471         | 97.29                  | 818.88                     | 599.03               |
+| 5   | Python                          | 5789               | 6289          | 92.05                  | 2470.08                    | 192.97               |
 
 ![Results](visualize/results.png "Results")
 
