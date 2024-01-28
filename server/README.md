@@ -1,5 +1,5 @@
 # Usage
 
 ```bash
-server.exe 20 # 30 is the number of seconds
+server.exe 30 # 30 is the number of seconds
 ```
