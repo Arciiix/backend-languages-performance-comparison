@@ -64,7 +64,7 @@ RequestPayload GenerateRequest()
     indexOfRequest++;
     StringBuilder sb = new StringBuilder();
 
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 1000; i++)
     {
         sb.Append(chars[random.Next(chars.Length)]);
     }
@@ -74,7 +74,7 @@ RequestPayload GenerateRequest()
     {
         Id = indexOfRequest.ToString(),
         TextForSorting = sb.ToString(),
-        TestOfNesting = new TestOfNesting() { FibonacciElementToCalculate = random.Next(1000) }
+        TestOfNesting = new TestOfNesting() { FibonacciElementToCalculate = random.Next(50) }
     };
 }
 
