@@ -33,3 +33,15 @@ The database used in this test was a simple MariaDB database ran in a Docker con
 Calculate the time of a function execution using DateTime-related objects (not a built-in functions to calculate the performance, e.g. Stopwatch in C#) - to also test the DateTime-related methods in a given language
 
 Thanks to the overload on my PC because of that services, I could test how the back-end technologies would behave on low-level servers and SBCs (single-board computers, like Raspberry Pi).
+
+# Results
+
+![Results](visualize/results.png "Results")
+
+| Language/technology             | Received responses | Sent requests | Received responses [%] | Mean time per request [ms] | Requests per seconds |
+| ------------------------------- | ------------------ | ------------- | ---------------------- | -------------------------- | -------------------- |
+| C#                              | 34571              | 35071         | 98.57                  | 428.53                     | 1152.37              |
+| Go                              | 17228              | 17728         | 97.18                  | 853.6                      | 574.27               |
+| Python                          | 5789               | 6289          | 92.05                  | 2470.08                    | 192.97               |
+| Rust                            | 34074              | 34574         | 98.55                  | 433.99                     | 1135.8               |
+| TypeScript/JavaScript (Node.js) | 17971              | 18471         | 97.29                  | 818.88                     | 599.03               |

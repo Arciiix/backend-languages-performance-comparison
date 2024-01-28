@@ -18,6 +18,7 @@ import (
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 type TestOfNesting struct {
@@ -130,7 +131,9 @@ func main() {
 	defer c.Close()
 
 	dsn := "root:example@tcp(127.0.0.1:3306)/Test?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+		Logger: logger.Discard,
+	})
 
 	if err != nil {
 		log.Fatal("db:", err)
